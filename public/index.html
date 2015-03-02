@@ -28,6 +28,22 @@
 
     var textures = [];
 
+    for (var i = 0; i < 150; i++) {
+        var arr = ['000','00'+i, '0'+i, i];
+        textures[i] = PIXI.Texture.fromImage("/stars/lol/Star03_"+arr[i.toString().length]+".png");
+    }
+
+    // create a new Sprite using the texture
+    var star = new PIXI.MovieClip(textures);
+
+    star.position.x = 500;
+    star.position.y = 200;
+
+    star.play();
+    star.animationSpeed = 0.2;
+
+    textures = [];
+
     for (var i = 0; i < 51; i++) {
         var arr = ['00','0'+i, i];
         textures[i] = PIXI.Texture.fromImage("/ships/lol/2s_0"+arr[i.toString().length]+".png");
@@ -55,6 +71,7 @@
     background.position.y = 0;
 
     stage.addChild(background);
+    stage.addChild(star);
     stage.addChild(bunny);
 
     var render = function(){
@@ -108,13 +125,13 @@
 
         if(keys.right){
             bunny.rotation += 0.05;
-            if(keys.speed < keys.maxSpeed){
+            if(keys.speed < keys.maxSpeed - 1){
                 keys.speed += 0.2;
             }
         }
         if(keys.left){
             bunny.rotation -= 0.05;
-            if(keys.speed < keys.maxSpeed){
+            if(keys.speed < keys.maxSpeed - 1){
                 keys.speed += 0.2;
             }
         }
