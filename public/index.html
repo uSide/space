@@ -41,7 +41,7 @@
     star.position.y = 200;
 
     star.play();
-    star.animationSpeed = 0.2;
+    star.animationSpeed = 0.3;
 
     textures = [];
 
@@ -113,7 +113,7 @@
         right: false,
         left: false,
         up: false,
-        maxSpeed: 7,
+        maxSpeed: 3,
         speed: 0
     }
 
@@ -197,7 +197,7 @@
 
         sh.position.x = bunny.position.x - shDeltas[0];
         sh.position.y = bunny.position.y + shDeltas[1];
-    }, 1);
+    }, 10);
 
     function rectToPolar(x, y){
         return [
