@@ -51,13 +51,13 @@
     }
 
     // create a new Sprite using the texture
-    var sh = new PIXI.MovieClip(textures);
+    var jet = new PIXI.MovieClip(textures);
 
-    sh.play();
-    sh.animationSpeed = 0.3;
+    jet.play();
+    jet.animationSpeed = 0.3;
 
-    sh.anchor.x = 0.5;
-    // sh.anchor.y = 0.5;
+    jet.anchor.x = 0.5;
+    // jet.anchor.y = 0.5;
 
     textures = [];
 
@@ -90,7 +90,7 @@
     stage.addChild(background);
     stage.addChild(star);
     stage.addChild(bunny);
-    stage.addChild(sh);
+    stage.addChild(jet);
 
     var count = 0;
 
@@ -98,7 +98,7 @@
                         0,1,0,0,
                         0,0,1,0,
                         0,0,0,1];
-                        
+
     var filter = new PIXI.ColorMatrixFilter();
 
     star.shader = filter;
@@ -107,15 +107,16 @@
         requestAnimationFrame(render);
 
         renderer.render(stage);
-    }
+    };
 
     var keys = {
         right: false,
         left: false,
         up: false,
         maxSpeed: 3,
-        speed: 0
-    }
+        speed: 0,
+        mainGunFire: false
+    };
 
     Mousetrap.bind('right', function() {
         keys.right = true;
@@ -141,9 +142,17 @@
         keys.up = false;
     }, 'keyup');
 
+    Mousetrap.bind('space', function() {
+        keys.mainGunFire = true;
+    });
+
+    Mousetrap.bind('space', function() {
+        keys.mainGunFire = false;
+    }, 'keyup');
+
     setInterval(function(){
         count += 0.1;
-        
+
         colorMatrix[1] = Math.sin(count) * 3;
         colorMatrix[2] = Math.cos(count);
         colorMatrix[3] = Math.cos(count) * 1.5;
@@ -179,6 +188,9 @@
                 keys.speed += 0.2;
             }
         }
+        if(keys.mainGunFire){
+
+        }
 
         // console.log(keys.speed);
 
@@ -191,12 +203,12 @@
         bunny.position.x += deltas[0];
         bunny.position.y -= deltas[1];
 
-        sh.rotation = bunny.rotation;
+        jet.rotation = bunny.rotation;
 
-        sh.scale.y = keys.speed / 2;
+        jet.scale.y = keys.speed / 2;
 
-        sh.position.x = bunny.position.x - shDeltas[0];
-        sh.position.y = bunny.position.y + shDeltas[1];
+        jet.position.x = bunny.position.x - shDeltas[0];
+        jet.position.y = bunny.position.y + shDeltas[1];
     }, 10);
 
     function rectToPolar(x, y){
