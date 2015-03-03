@@ -6,7 +6,7 @@ class Entity {
         this.entity = entity;
     }
 
-    setDefaults() {
+    setDefaults(id) {
         this.x = 0;
         this.y = 0;
 
@@ -23,7 +23,10 @@ class Entity {
         this.entity.anchor.x = 0.5;
         this.entity.anchor.y = 0.5;
 
-        this.entity.id = counter++;
+        this.entity.scale.x = 0.5;
+        this.entity.scale.y = 0.5;
+
+        this.entity.id = id;
 
         entities[this.entity.id] = this;
     }
@@ -34,7 +37,7 @@ class Entity {
 }
 
 class Ship extends Entity {
-    constructor(name) {
+    constructor(name, id) {
         var textures = [];
 
         for (var i = 0; i < 100; i++) {
@@ -49,6 +52,6 @@ class Ship extends Entity {
 
         this.entity = entity;
 
-        this.setDefaults();
+        this.setDefaults(id);
     }
 }

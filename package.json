@@ -1,25 +1,29 @@
 {
-    "name": "space",
-    "version": "0.1.0",
-    "description": "Space Rangers Online",
-    "main": "server.js",
-    "dependencies": {
-        "compression": "^1.4.1",
-        "express": "^4.12.0"
-    },
-    "devDependencies": {},
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "node server.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/uSide/space.git"
-    },
-    "author": "uSide",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/uSide/space/issues"
-    },
-    "homepage": "https://github.com/uSide/space"
+  "name": "space",
+  "version": "0.1.0",
+  "description": "Space Rangers Online",
+  "main": "server.js",
+  "dependencies": {
+    "compression": "^1.4.1",
+    "express": "^4.12.0",
+    "jsonwebtoken": "^3.2.2",
+    "lodash": "^3.3.1",
+    "socket.io": "^1.3.4",
+    "socketio-jwt": "^2.3.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/uSide/space.git"
+  },
+  "author": "uSide",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uSide/space/issues"
+  },
+  "homepage": "https://github.com/uSide/space"
 }

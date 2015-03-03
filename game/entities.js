@@ -26,7 +26,7 @@ var Entity = (function () {
                 }
         }, {
                 setDefaults: {
-                        value: function setDefaults() {
+                        value: function setDefaults(id) {
                                 this.x = 0;
                                 this.y = 0;
 
@@ -43,7 +43,10 @@ var Entity = (function () {
                                 this.entity.anchor.x = 0.5;
                                 this.entity.anchor.y = 0.5;
 
-                                this.entity.id = counter++;
+                                this.entity.scale.x = 0.5;
+                                this.entity.scale.y = 0.5;
+
+                                this.entity.id = id;
 
                                 entities[this.entity.id] = this;
                         },
@@ -56,7 +59,7 @@ var Entity = (function () {
 })();
 
 var Ship = (function (Entity) {
-        function Ship(name) {
+        function Ship(name, id) {
                 _classCallCheck(this, Ship);
 
                 var textures = [];
@@ -73,7 +76,7 @@ var Ship = (function (Entity) {
 
                 this.entity = entity;
 
-                this.setDefaults();
+                this.setDefaults(id);
         }
 
         _inherits(Ship, Entity);
