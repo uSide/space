@@ -1,0 +1,25 @@
+{
+    "name": "space",
+    "version": "0.1.0",
+    "description": "Space Rangers Online",
+    "main": "server.js",
+    "dependencies": {
+        "compression": "^1.4.1",
+        "express": "^4.12.0"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/uSide/space.git"
+    },
+    "author": "uSide",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/uSide/space/issues"
+    },
+    "homepage": "https://github.com/uSide/space"
+}
