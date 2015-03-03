@@ -4,10 +4,10 @@ app.use(compression({
   threshold: 512
 }));
 
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/game'));
 
 app.get('/*', function(req, res){
-    res.end(fs.readFileSync(__dirname + '/public/index.html'));
+    res.end(fs.readFileSync(__dirname + '/game/index.html'));
 });
 
 
