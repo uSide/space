@@ -1,9 +1,14 @@
 class Ship extends Entity{
 	engine = false;
-
 	body = false;
-
 	// TODO: Other items
+
+	// current speed
+	speed = 5;
+
+	up = false;
+	left = false;
+	right = false;
 
 	inventory = [];
 
@@ -21,5 +26,12 @@ class Ship extends Entity{
 				inventory.splice(i,1);
 			}
 		});
+	}
+
+	destroy(){
+		this.body.remove();
+		this.engine.remove();
+		
+		// TODO: remove inventory entities
 	}
 }
