@@ -18,4 +18,8 @@ class Entity {
         this.id = id;
         entities[this.id] = this;
     }
+
+    remove(){
+        entities[this.id] = false;
+    }
 }
