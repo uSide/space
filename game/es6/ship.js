@@ -31,6 +31,7 @@ class Ship extends Entity{
 	destroy(){
 		this.body.remove();
 		this.engine.remove();
+		this.remove();
 		
 		// TODO: remove inventory entities
 	}

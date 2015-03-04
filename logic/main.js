@@ -9,6 +9,8 @@ setInterval(function() {
             // compute angles, speed and coordinates
         }
     });
+
+    io.sockets.emit('sync', entities.entities);
 }, 20);
 
 io.sockets.on('connection', function(socket) {
