@@ -4,7 +4,7 @@ class Ship extends Entity {
   // TODO: Other items
 
   // current speed
-  speed = 5;
+  speed = 0;
 
   up = false;
   left = false;

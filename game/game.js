@@ -13,8 +13,8 @@ window.document.body.appendChild(renderer.view);
 var stage = new PIXI.Stage(0x66FF99),
   background = new PIXI.Sprite(new PIXI.Texture.fromImage('/resources/bg.jpg'));
 
-background.position.x = game.viewPort.x / 2;
-background.position.y = game.viewPort.y / 2;
+background.position.x = 0;
+background.position.y = 0;
 
 background.anchor.x = 0.5;
 background.anchor.y = 0.5;
@@ -35,59 +35,80 @@ socket.on('sync', function(ents) {
   });
 });
 
+socket.on('base unit', function(id) {
+  game.baseUnit = _.find(entities, {
+    id: id
+  });
+
+  console.log(game.baseUnit, id, game.baseUnit.id);
+});
+
+var childs = [];
+
 // Render loop
 var render = function() {
   requestAnimationFrame(render);
 
   stage.children.forEach(function(child) {
-    stage.removeChild(child);
-    //     // console.log(child.id);
-    //     if (game.baseUnit && child != game.background && child !== game.baseUnit) {
-    //         // all objects
-    //         // child.position.x = 1000 - game.baseUnit.position.x;
-    //         child.x = game.viewPort.x / 2 - (game.baseUnit.x - Entity.getEntityById(child.id).x);
-    //         child.y = game.viewPort.y / 2 - (game.baseUnit.y - Entity.getEntityById(child.id).y);
-    //     }
-    //
-    //     if (game.baseUnit && child.id == game.baseUnit.entity.id) {
-    //         // TODO: check for corners of the system
-    //         child.x = game.viewPort.x / 2;
-    //         child.y = game.viewPort.y / 2;
-    //     }
-    //
-    //     if (game.baseUnit && child == game.background.entity) {
-    //         // background (for parallax)
-    //     }
+    if (child !== game.background) {
+      if (!_.where(entities, {
+          id: child.id
+        })) {
+        stage.removeChild(child);
+      }
+    }
   });
 
   entities.forEach(function(entity) {
+    var index = entity.id;
+
     if (entity instanceof Ship) {
-      var name = entity.shell.type;
+      var child;
 
-      var textures = [];
+      if (childs[index]) {
+        child = childs[index];
+      } else {
+        var name = entity.shell.type;
 
-      for (var i = 0; i < 50; i++) {
-        var arr = ['000', '00' + i, '0' + i, i];
-        textures[i] = PIXI.Texture.fromImage("/resources/ships/" + name + "/" + name + "_" + arr[i.toString().length] + ".png");
+        var textures = [];
+
+        for (var i = 0; i < 50; i++) {
+          var arr = ['000', '00' + i, '0' + i, i];
+          textures[i] = PIXI.Texture.fromImage("/resources/ships/" + name + "/" + name + "_" + arr[i.toString().length] + ".png");
+        }
+
+        child = new PIXI.MovieClip(textures);
+
+        child.play();
+        child.animationSpeed = 0.3;
+
+        child.anchor.x = entity.anchor;
+        child.anchor.y = entity.anchor;
+
+        child.scale.x = entity.scale;
+        child.scale.y = entity.scale;
+
+        child.id = index;
+
+        childs[index] = child;
+
+        stage.addChild(child);
       }
-
-      var child = new PIXI.MovieClip(textures);
-
-      child.play();
-      child.animationSpeed = 0.3;
 
       child.x = entity.x;
       child.y = entity.y;
 
       child.rotation = entity.angle;
 
-      child.anchor.x = entity.anchor;
-      child.anchor.y = entity.anchor;
+      if (game.baseUnit && child.id) {
+        if (child.id == game.baseUnit.id) {
+          stage.worldTransform.tx = -child.x + game.viewPort.x / 2;
+          stage.worldTransform.ty = -child.y + game.viewPort.y / 2;
 
-      child.scale.x = entity.scale;
-      child.scale.y = entity.scale;
-
-      stage.addChild(child);
+          game.background.position.x = -stage.worldTransform.tx + game.viewPort.x / 2 - child.x / 5;
+          game.background.position.y = -stage.worldTransform.ty + game.viewPort.y / 2 - child.y / 5;
+        }
+      }
     }
   });
 

@@ -163,7 +163,7 @@ var Ship = (function (Entity) {
     this.right = false;
     this.left = false;
     this.up = false;
-    this.speed = 5;
+    this.speed = 0;
     this.shell = false;
     this.engine = false;
 
