@@ -35,4 +35,10 @@ class Ship extends Entity{
 		
 		// TODO: remove inventory entities
 	}
+
+	init(){
+		mainScene = true;
+		
+		super.init();
+	}
 }

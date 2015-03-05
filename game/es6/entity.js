@@ -1,6 +1,8 @@
 var entities = [];
 
 class Entity {
+    mainScene = false;
+
     id = 0;
 
     x = 0;
@@ -21,5 +23,9 @@ class Entity {
 
     remove(){
         entities[this.id] = false;
+    }
+
+    hide(){
+        this.mainScene = false;
     }
 }

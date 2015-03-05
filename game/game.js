@@ -20,8 +20,11 @@ window.document.body.appendChild(renderer.view);
 var stage = new PIXI.Stage(0x66FF99),
     background = new PIXI.Sprite(new PIXI.Texture.fromImage('/resources/bg.jpg'));
 
-background.position.x = 0;
-background.position.y = 0;
+background.position.x = game.viewPort.x / 2;
+background.position.y = game.viewPort.y / 2;
+
+background.anchor.x = 0.5;
+background.anchor.y = 0.5;
 
 game.background = background;
 // set background for stage
@@ -38,7 +41,15 @@ socket.on('sync', function(ships) {
         if (entity = Entity.getEntityById(ship.id)) {
             entity.x = ship.x;
             entity.y = ship.y;
-            entity.entity.rotation = ship.angle;
+
+            if(game.baseUnit && ship.id == game.baseUnit.entity.id){
+                var deltas = polarToRect(ship.x / 3, ship.angle);
+
+                game.background.x = (game.viewPort.x / 2) + deltas[0];
+                game.background.y = (game.viewPort.y / 2) + deltas[1];
+
+                game.background.rotation = -ship.angle;
+            }
         } else {
             var entity = new Ship('1', ship.id);
             stage.addChild(entity.entity);

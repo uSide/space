@@ -1,12 +1,32 @@
 var server = require('http').createServer(),
     io = socketIo.listen(server),
-    entities = require('./entities.js');
+    entities = require('./entities.js'),
+    geometry = require('./geometry.js');
 
 // computing loop
 setInterval(function() {
     entities.entities.forEach(function(entity){
-        if(entity instanceOf entities.Ship){
-            // compute angles, speed and coordinates
+        if(entity.mainScene){
+            if(entity instanceOf entities.Ship){
+                if(entity.engine && entity.body){
+                    if(entity.left){
+                        entity.angle -= 0.1;
+                    }
+
+                    if(entity.right){
+                        entity.angle += 0.1;
+                    }
+
+                    if(entity.up){
+                        var angle = entity.angle % (2 * Math.PI);
+
+                        var deltas = polarToRect(3, angle);
+
+                        ship.x += deltas[0];
+                        ship.y -= deltas[1];
+                    }
+                }
+            }
         }
     });
 
