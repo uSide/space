@@ -1,6 +1,6 @@
 class Item extends Entity {
-    isDroppable = true;
+  isDroppable = true;
 
-    price = 1;
-    weight = 1;
+  price = 1;
+  weight = 1;
 }

@@ -23,7 +23,7 @@ contents += 'module.exports = {';
 contents += 'entities:entities,';
 
 files.forEach(function(file) {
-  contents += _.capitalize(file) + ':' + _.capitalize(file) + ','
+  contents += _.capitalize(file) + ':' + _.capitalize(file) + ',';
 });
 
 contents += '}';

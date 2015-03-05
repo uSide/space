@@ -1,91 +1,99 @@
 var server = require('http').createServer(),
-    io = socketIo.listen(server),
-    entities = require('./entities.js'),
-    geometry = require('./geometry.js');
+  io = require('socket.io').listen(server),
+  entities = require('./entities.js'),
+  geometry = require('./geometry.js');
 
 // computing loop
 setInterval(function() {
-    entities.entities.forEach(function(entity){
-        if(entity.mainScene){
-            if(entity instanceOf entities.Ship){
-                if(entity.engine && entity.body){
-                    if(entity.left){
-                        entity.angle -= 0.1;
-                    }
+  // console.log(entities.entities);
+  entities.entities.forEach(function(entity) {
+    if (entity.mainScene) {
+      if (entity instanceof entities.Ship) {
+        if (entity.engine && entity.shell) {
+          if (entity.left) {
+            entity.angle -= 0.1;
+          }
 
-                    if(entity.right){
-                        entity.angle += 0.1;
-                    }
+          if (entity.right) {
+            entity.angle += 0.1;
+          }
 
-                    if(entity.up){
-                        var angle = entity.angle % (2 * Math.PI);
+          if (entity.up) {
+            var angle = entity.angle % (2 * Math.PI);
 
-                        var deltas = polarToRect(3, angle);
+            var deltas = geometry.polarToRect(3, angle);
 
-                        ship.x += deltas[0];
-                        ship.y -= deltas[1];
-                    }
-                }
-            }
+            entity.x += deltas[0];
+            entity.y -= deltas[1];
+          }
         }
-    });
+      }
+    }
+  });
 
-    io.sockets.emit('sync', entities.entities);
+  io.sockets.emit('sync', entities.entities);
 }, 20);
 
 io.sockets.on('connection', function(socket) {
-    var ship = new entities.Ship();
-    ship.init();
+  var ship = new entities.Ship();
+  ship.init();
 
-    // create body for ship
-    var body = new entities.Shell();
-    body.init();
+  ship.scale = 0.5;
 
-    body.weight = 300;
-    body.price = 3;
+  setInterval(function() {
+    socket.emit('base unit', ship.id);
+  }, 1000);
 
-    ship.body = body;
+  // create body for ship
+  var body = new entities.Shell();
+  body.init();
 
-    // create engine for ship
-    var engine = new entities.Engine();
-    engine.init();
+  body.weight = 300;
+  body.price = 3;
 
-    engine.weight = 30;
-    engine.price = 3;
-    engine.acceleration = 1;
-    engine.speed = 5;
+  ship.shell = body;
 
-    ship.engine = engine;
+  // create engine for ship
+  var engine = new entities.Engine();
+  engine.init();
 
-    socket.on('up:enabled', function() {
-        ship.up = true;
-    });
+  engine.weight = 30;
+  engine.price = 3;
+  engine.acceleration = 1;
+  engine.speed = 5;
 
-    socket.on('up:disabled', function() {
-        ship.up = false;
-    });
+  ship.engine = engine;
 
-    socket.on('left:enabled', function() {
-        ship.left = true;
-    });
+  socket.on('up:enabled', function() {
+    console.log(ship);
+    ship.up = true;
+  });
 
-    socket.on('left:disabled', function() {
-        ship.left = false;
-    });
+  socket.on('up:disabled', function() {
+    ship.up = false;
+  });
 
-    socket.on('right:enabled', function() {
-        ship.right = true;
-    });
+  socket.on('left:enabled', function() {
+    ship.left = true;
+  });
 
-    socket.on('right:disabled', function() {
-        ship.right = false;
-    });
+  socket.on('left:disabled', function() {
+    ship.left = false;
+  });
 
-    socket.on('disconnect', function() {
-        console.log('disconnected');
+  socket.on('right:enabled', function() {
+    ship.right = true;
+  });
 
-        ship.destroy();
-    });
+  socket.on('right:disabled', function() {
+    ship.right = false;
+  });
+
+  socket.on('disconnect', function() {
+    console.log('disconnected');
+
+    ship.destroy();
+  });
 });
 
 server.listen(4000);

@@ -1,44 +1,44 @@
-class Ship extends Entity{
-	engine = false;
-	body = false;
-	// TODO: Other items
+class Ship extends Entity {
+  engine = false;
+  shell = false;
+  // TODO: Other items
 
-	// current speed
-	speed = 5;
+  // current speed
+  speed = 5;
 
-	up = false;
-	left = false;
-	right = false;
+  up = false;
+  left = false;
+  right = false;
 
-	inventory = [];
+  inventory = [];
 
-	setInventory(inv){
-		this.inventory = inv;
-	}
+  setInventory(inv) {
+    this.inventory = inv;
+  }
 
-	addItemToInventory(item){
-		this.inventory.push(item);
-	}
+  addItemToInventory(item) {
+    this.inventory.push(item);
+  }
 
-	removeItemFromInventory(itemForRemove){
-		inventory.forEach(function(item, i){
-			if(item == itemForRemove){
-				inventory.splice(i,1);
-			}
-		});
-	}
+  removeItemFromInventory(itemForRemove) {
+    inventory.forEach(function(item, i) {
+      if (item == itemForRemove) {
+        inventory.splice(i, 1);
+      }
+    });
+  }
 
-	destroy(){
-		this.body.remove();
-		this.engine.remove();
-		this.remove();
-		
-		// TODO: remove inventory entities
-	}
+  destroy() {
+    this.shell.remove();
+    this.engine.remove();
+    this.remove();
 
-	init(){
-		mainScene = true;
-		
-		super.init();
-	}
+    // TODO: remove inventory entities
+  }
+
+  init() {
+    this.mainScene = true;
+
+    super.init();
+  }
 }

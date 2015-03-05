@@ -4,48 +4,77 @@ var _prototypeProperties = function (child, staticProps, instanceProps) { if (st
 
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
-var entities = [];
+var entities = [],
+    counter = 0;
 
 var Entity = (function () {
-    function Entity() {
-        this.angle = 0;
-        this.collision = false;
-        this.anchor = 0.5;
-        this.scale = 1;
-        this.y = 0;
-        this.x = 0;
-        this.id = 0;
-        this.mainScene = false;
+  function Entity() {
+    this.angle = 0;
+    this.collision = false;
+    this.anchor = 0.5;
+    this.scale = 1;
+    this.y = 0;
+    this.x = 0;
+    this.id = 0;
+    this.mainScene = false;
 
-        _classCallCheck(this, Entity);
-    }
+    _classCallCheck(this, Entity);
+  }
 
-    _prototypeProperties(Entity, null, {
-        init: {
-            value: function init(id) {
-                this.id = id;
-                entities[this.id] = this;
-            },
-            writable: true,
-            configurable: true
-        },
-        remove: {
-            value: function remove() {
-                entities[this.id] = false;
-            },
-            writable: true,
-            configurable: true
-        },
-        hide: {
-            value: function hide() {
-                this.mainScene = false;
-            },
-            writable: true,
-            configurable: true
+  _prototypeProperties(Entity, {
+    reload: {
+      value: function reload(data) {
+        // spawning entities on client while sending it on websocket
+        var instance = new window[data.className]();
+
+        delete data.className;
+
+        for (var key in data) {
+          instance[key] = data[key];
         }
-    });
 
-    return Entity;
+        return instance;
+      },
+      writable: true,
+      configurable: true
+    }
+  }, {
+    init: {
+      value: function init(id) {
+        this.id = counter++;
+        entities[this.id] = this;
+      },
+      writable: true,
+      configurable: true
+    },
+    remove: {
+      value: function remove() {
+        entities[this.id] = false;
+      },
+      writable: true,
+      configurable: true
+    },
+    hide: {
+      value: function hide() {
+        this.mainScene = false;
+      },
+      writable: true,
+      configurable: true
+    },
+    toJSON: {
+      value: function toJSON() {
+        var object = this;
+
+        object.className = Object.getPrototypeOf(object).constructor.name;
+
+        return object;
+      },
+      writable: true,
+      configurable: true
+    }
+  });
+
+  return Entity;
 })();
 
 "use strict";
@@ -55,21 +84,21 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Item = (function (Entity) {
-    function Item() {
-        this.weight = 1;
-        this.price = 1;
-        this.isDroppable = true;
+  function Item() {
+    this.weight = 1;
+    this.price = 1;
+    this.isDroppable = true;
 
-        _classCallCheck(this, Item);
+    _classCallCheck(this, Item);
 
-        if (Entity != null) {
-            Entity.apply(this, arguments);
-        }
+    if (Entity != null) {
+      Entity.apply(this, arguments);
     }
+  }
 
-    _inherits(Item, Entity);
+  _inherits(Item, Entity);
 
-    return Item;
+  return Item;
 })(Entity);
 
 "use strict";
@@ -129,73 +158,73 @@ var _inherits = function (subClass, superClass) { if (typeof superClass !== "fun
 var _classCallCheck = function (instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } };
 
 var Ship = (function (Entity) {
-	function Ship() {
-		this.inventory = [];
-		this.right = false;
-		this.left = false;
-		this.up = false;
-		this.speed = 5;
-		this.body = false;
-		this.engine = false;
+  function Ship() {
+    this.inventory = [];
+    this.right = false;
+    this.left = false;
+    this.up = false;
+    this.speed = 5;
+    this.shell = false;
+    this.engine = false;
 
-		_classCallCheck(this, Ship);
+    _classCallCheck(this, Ship);
 
-		if (Entity != null) {
-			Entity.apply(this, arguments);
-		}
-	}
+    if (Entity != null) {
+      Entity.apply(this, arguments);
+    }
+  }
 
-	_inherits(Ship, Entity);
+  _inherits(Ship, Entity);
 
-	_prototypeProperties(Ship, null, {
-		setInventory: {
-			value: function setInventory(inv) {
-				this.inventory = inv;
-			},
-			writable: true,
-			configurable: true
-		},
-		addItemToInventory: {
-			value: function addItemToInventory(item) {
-				this.inventory.push(item);
-			},
-			writable: true,
-			configurable: true
-		},
-		removeItemFromInventory: {
-			value: function removeItemFromInventory(itemForRemove) {
-				inventory.forEach(function (item, i) {
-					if (item == itemForRemove) {
-						inventory.splice(i, 1);
-					}
-				});
-			},
-			writable: true,
-			configurable: true
-		},
-		destroy: {
-			value: function destroy() {
-				this.body.remove();
-				this.engine.remove();
-				this.remove();
+  _prototypeProperties(Ship, null, {
+    setInventory: {
+      value: function setInventory(inv) {
+        this.inventory = inv;
+      },
+      writable: true,
+      configurable: true
+    },
+    addItemToInventory: {
+      value: function addItemToInventory(item) {
+        this.inventory.push(item);
+      },
+      writable: true,
+      configurable: true
+    },
+    removeItemFromInventory: {
+      value: function removeItemFromInventory(itemForRemove) {
+        inventory.forEach(function (item, i) {
+          if (item == itemForRemove) {
+            inventory.splice(i, 1);
+          }
+        });
+      },
+      writable: true,
+      configurable: true
+    },
+    destroy: {
+      value: function destroy() {
+        this.shell.remove();
+        this.engine.remove();
+        this.remove();
 
-				// TODO: remove inventory entities
-			},
-			writable: true,
-			configurable: true
-		},
-		init: {
-			value: function init() {
-				mainScene = true;
+        // TODO: remove inventory entities
+      },
+      writable: true,
+      configurable: true
+    },
+    init: {
+      value: function init() {
+        this.mainScene = true;
 
-				_get(Object.getPrototypeOf(Ship.prototype), "init", this).call(this);
-			},
-			writable: true,
-			configurable: true
-		}
-	});
+        _get(Object.getPrototypeOf(Ship.prototype), "init", this).call(this);
+      },
+      writable: true,
+      configurable: true
+    }
+  });
 
-	return Ship;
+  return Ship;
 })(Entity);
 
 // TODO: Other items
