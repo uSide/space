@@ -12,6 +12,8 @@ class Ship extends Entity {
 
   inventory = [];
 
+  health = 1;
+
   setInventory(inv) {
     this.inventory = inv;
   }

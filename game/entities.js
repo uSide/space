@@ -16,6 +16,8 @@ var Entity = (function () {
     this.y = 0;
     this.x = 0;
     this.id = 0;
+    this.inventoryTextures = 0;
+    this.spaceTextures = 0;
     this.mainScene = false;
 
     _classCallCheck(this, Entity);
@@ -39,6 +41,20 @@ var Entity = (function () {
       configurable: true
     }
   }, {
+    setSpaceTexturesCount: {
+      value: function setSpaceTexturesCount(num) {
+        this.spaceTextures = num;
+      },
+      writable: true,
+      configurable: true
+    },
+    setInventoryTexturesCount: {
+      value: function setInventoryTexturesCount(num) {
+        this.inventoryTextures = num;
+      },
+      writable: true,
+      configurable: true
+    },
     init: {
       value: function init(id) {
         this.id = counter++;
@@ -76,6 +92,8 @@ var Entity = (function () {
 
   return Entity;
 })();
+
+// textures
 
 "use strict";
 
@@ -132,7 +150,6 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var Shell = (function (Item) {
 	function Shell() {
-		this.health = 1;
 		this.type = "1";
 
 		_classCallCheck(this, Shell);
@@ -159,6 +176,7 @@ var _classCallCheck = function (instance, Constructor) { if (!(instance instance
 
 var Ship = (function (Entity) {
   function Ship() {
+    this.health = 1;
     this.inventory = [];
     this.right = false;
     this.left = false;

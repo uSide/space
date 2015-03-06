@@ -63,11 +63,11 @@ var render = function() {
     var index = entity.id;
 
     if (entity instanceof Ship) {
-      var child;
+      var child = _.find(childs, {
+        id: index
+      });
 
-      if (childs[index]) {
-        child = childs[index];
-      } else {
+      if (!child) {
         var name = entity.shell.type;
 
         var textures = [];
@@ -90,7 +90,7 @@ var render = function() {
 
         child.id = index;
 
-        childs[index] = child;
+        childs.push(child);
 
         stage.addChild(child);
       }

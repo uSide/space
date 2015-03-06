@@ -4,6 +4,18 @@ var entities = [],
 class Entity {
   mainScene = false;
 
+  // textures
+  spaceTextures = 0;
+  inventoryTextures = 0;
+
+  setSpaceTexturesCount(num){
+    this.spaceTextures = num;
+  }
+
+  setInventoryTexturesCount(num){
+    this.inventoryTextures = num;
+  }
+
   id = 0;
 
   x = 0;
