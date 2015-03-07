@@ -23,7 +23,7 @@ game.background = background;
 // set background for stage
 stage.addChild(background);
 
-var socket = io.connect('http://46.63.1.119:4000');
+var socket = io.connect('http://localhost:4000');
 
 socket.on('sync', function(ents) {
   // console.log(ents);
@@ -39,8 +39,6 @@ socket.on('base unit', function(id) {
   game.baseUnit = _.find(entities, {
     id: id
   });
-
-  console.log(game.baseUnit, id, game.baseUnit.id);
 });
 
 var childs = [];
@@ -61,7 +59,7 @@ var render = function() {
 
   entities.forEach(function(entity) {
     var index = entity.id;
-
+    // Ship
     if (entity instanceof Ship) {
       var child = _.find(childs, {
         id: index
@@ -110,6 +108,44 @@ var render = function() {
         }
       }
     }
+    // Star
+    if (entity instanceof Star) {
+      var child = _.find(childs, {
+        id: index
+      });
+
+      if (!child) {
+        var name = entity.type;
+
+        var textures = [];
+
+        for (var i = 0; i < entity.spaceTextures; i++) {
+          var arr = ['000', '00' + i, '0' + i, i];
+          textures[i] = PIXI.Texture.fromImage("/resources/stars/" + name + "/" + name + "_" + arr[i.toString().length] + ".png");
+        }
+
+        child = new PIXI.MovieClip(textures);
+
+        child.play();
+        child.animationSpeed = 0.3;
+
+        child.anchor.x = entity.anchor;
+        child.anchor.y = entity.anchor;
+
+        child.scale.x = entity.scale;
+        child.scale.y = entity.scale;
+
+        child.id = index;
+
+        childs.push(child);
+
+        stage.addChild(child);
+      }
+
+      child.x = entity.x;
+      child.y = entity.y;
+    }
+    // end
   });
 
   renderer.render(stage);

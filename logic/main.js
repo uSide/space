@@ -67,6 +67,11 @@ setInterval(function() {
   io.sockets.emit('sync', entities.entities);
 }, 20);
 
+var star = new entities.Star();
+star.init();
+star.type = '1';
+star.setSpaceTexturesCount(150);
+
 io.sockets.on('connection', function(socket) {
   var ship = new entities.Ship();
   ship.init();

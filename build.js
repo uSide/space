@@ -1,5 +1,5 @@
 var dir = 'game/es6/',
-  files = ['entity', 'item', 'engine', 'shell', 'ship'],
+  files = ['entity', 'star', 'item', 'engine', 'shell', 'ship'],
   cp = require('child_process'),
   fs = require('fs'),
   _ = require('lodash');
