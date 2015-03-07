@@ -15,7 +15,7 @@ if (!child) {
   child = new PIXI.MovieClip(textures);
 
   child.play();
-  child.animationSpeed = 0.3;
+  child.animationSpeed = 0.5;
 
   child.anchor.x = entity.anchor;
   child.anchor.y = entity.anchor;
