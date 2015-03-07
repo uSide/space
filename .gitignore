@@ -27,4 +27,6 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
-entities.js
+game/entities.js
+logic/entities.js
+game/render.js
