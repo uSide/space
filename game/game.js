@@ -43,8 +43,16 @@ socket.on('base unit', function(id) {
 
 var childs = [];
 
+var fps = false;
+
+setInterval(function(){
+  if(fps) console.log('sec');
+}, 1000);
+
 // Render loop
 var render = function() {
+  if(fps) console.log('fps');
+
   requestAnimationFrame(render);
 
   stage.children.forEach(function(child) {
@@ -119,7 +127,7 @@ var render = function() {
 
         var textures = [];
 
-        for (var i = 0; i < entity.spaceTextures; i++) {
+        for (var i = 0; i <= entity.spaceTextures; i++) {
           var arr = ['000', '00' + i, '0' + i, i];
           textures[i] = PIXI.Texture.fromImage("/resources/stars/" + name + "/" + name + "_" + arr[i.toString().length] + ".png");
         }
