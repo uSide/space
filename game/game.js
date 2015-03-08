@@ -19,6 +19,9 @@ background.position.y = 0;
 background.anchor.x = 0.5;
 background.anchor.y = 0.5;
 
+background.scale.x = 0.7;
+background.scale.y = 0.7;
+
 game.background = background;
 // set background for stage
 stage.addChild(background);
