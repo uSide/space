@@ -33,6 +33,11 @@ socket.on('sync', function(ents) {
   }).map(function(entity) {
     return Entity.reload(entity);
   });
+
+  minimap.postMessage({
+    type: 'sync',
+    entities: JSON.parse(JSON.stringify(entities))
+  });
 });
 
 socket.on('base unit', function(id) {
