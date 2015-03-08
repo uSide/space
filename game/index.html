@@ -18,8 +18,32 @@
 </head>
 
 <body>
+  <canvas width="200" height="200" id="canv" style="position: absolute;right: 0;"></canvas>
   <script src="/entities.js"></script>
   <script src="/render.js"></script>
+  <script>
+    var canvas = document.getElementById('canv'),
+      ctx = canvas.getContext("2d"),
+      image = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+    var minimap = new Worker('/minimap.js');
+
+    minimap.onmessage = function(event){
+      ctx.putImageData(event.data.image, 0, 0);
+    };
+
+    minimap.onerror = function(){
+      console.log(arguments);
+    };
+
+    minimap.postMessage({
+      type: 'init',
+      width: 200,
+      entities: JSON.parse(JSON.stringify(entities)),
+      delta: 10000,
+      imagedata: image
+    });
+  </script>
   <script src="/game.js"></script>
 </body>
 
