@@ -4,6 +4,8 @@
   "description": "Space Rangers Online",
   "main": "server.js",
   "dependencies": {
+    "async": "^0.9.0",
+    "babel": "^4.7.5",
     "compression": "^1.4.1",
     "express": "^4.12.0",
     "jsonwebtoken": "^3.2.2",
