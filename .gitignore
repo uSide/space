@@ -30,3 +30,4 @@ node_modules
 game/entities.js
 logic/entities.js
 game/render.js
+build/

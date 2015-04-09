@@ -1,0 +1,13 @@
+<button onclick="process.exit()">close</button>
+<style>
+html, body {background-color:transparent}
+</style>
+<script>
+var gui = require('nw.gui');
+var win = gui.Window.get();
+gui.Screen.Init();
+win.x = 0;
+win.y = 0;
+win.width = gui.Screen.screens[0].bounds.width;
+win.height = gui.Screen.screens[0].bounds.height;
+</script>
